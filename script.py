@@ -22,6 +22,7 @@ print(args)
 
 verts_dict = {'C1': 1, 'C2': 2, 'C3': 3, 'C4': 4, 'C5': 5, 'C6': 6, 'C7': 7, 'T1': 8, 'T2': 9, 'T3': 10, 'T4': 11, 'T5': 12, 'T6': 13, 'T7': 14,
  'T8': 15, 'T9': 16, 'T10': 17, 'T11': 18, 'T12': 19, 'L1': 20, 'L2': 21, 'L3': 22, 'L4': 23, 'L5': 24, 'L6': 25}
+inverse_dict = {v: k for k, v in verts_dict.items()}
 
 img_data, ctd = read_datapoint(args.path)
 verts_to_gen = [verts_dict[x] for x in args.vertebrae if x in verts_dict.keys()]
@@ -45,6 +46,12 @@ state   = torch.load(model_path, map_location=device)
 state_dict 	= state['state_dict']
 model.load_state_dict(state_dict)
 
+thresh_ost= 0.95
+thresh_mal= 0.85
+
+prediction_dict = {
+        'FileID': os.path.basename(args.path)  
+    }
 
 for k, v in vertebrae_dict.items():
     if k<8:
@@ -65,4 +72,11 @@ for k, v in vertebrae_dict.items():
         pred = pred.detach().cpu().numpy()[0]
         
         proba =softmaxed[0].detach().cpu()
-        print(pred)
+        uncert = 0
+        if pred==1 and proba[1] < thresh_mal:
+            uncert=1
+        elif pred==0 and proba[0] < thresh_ost:
+            uncert=1
+            
+        prediction_dict[inverse_dict[k]] = {'pred': pred, 'uncert': uncert}
+        save_json(prediction_dict,args.path.replace('_ct.nii.gz','_pred.json'))

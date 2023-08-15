@@ -238,3 +238,14 @@ def read_datapoint(img_pth):
     img_data = (np.clip(np.asanyarray(img.dataobj,dtype=np.float64),-1000,3500) +1000)/2500
     
     return img_data, ctd
+
+def save_json(out_dict, out_path):
+    def convert(o):
+        if isinstance(o, np.int64):
+            return int(o)
+        elif isinstance(o,np.float32):
+            return round(float(o),1)
+        raise TypeError
+    with open(out_path, 'w') as f:
+        json.dump(out_dict, f, indent=4, default=convert)
+    print("[*] Json saved:", out_path)
