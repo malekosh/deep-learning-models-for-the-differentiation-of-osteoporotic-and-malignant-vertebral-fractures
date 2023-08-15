@@ -2,7 +2,7 @@
 
 This repository contains the code for distinguishing between malignat and osteoporotic fractures in CT scans in the nifti format.
 
-### Data Format
+### Input Data Format
 
 * The dataset has to have three files corresponding to one data sample: image, segmentation mask, centroid annotations. The format of those files follows  **VerSe dataset** format (https://github.com/anjany/verse) 
 
@@ -22,8 +22,17 @@ sample_dataset/derivatives/sub-sample000/
 ## Usage
 
 ```
-python3 script.py  -path 1  -vert L2 L3
+python3 script.py  -path /path/to/image  -vert vert1 vert2 vert3
 ```
+* Sample Example
+```
+python3 script.py  -path ./sample_dataset/rawdata/sub-sample001/sub-sample001_ct.nii.gz  -vert L2
+```
+
+## Requirements
+
+- Python 3.11.3
+- requirements.txt
 
 
 ## References:
@@ -39,5 +48,4 @@ python3 script.py  -path 1  -vert L2 L3
 ## *Under Construction*
 - [x] Push inference code
 - [] Batch input support
-- [] Push training and test code
-- [] Update readme
+- [] Push training code
