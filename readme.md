@@ -2,7 +2,7 @@
 
 This repository contains the code for distinguishing between malignat and osteoporotic fractures in CT scans in the nifti format.
 
-### Input Data Format
+## Input Data Format
 
 * The dataset has to have three files corresponding to one data sample: image, segmentation mask, centroid annotations. The format of those files follows  **VerSe dataset** format (https://github.com/anjany/verse) 
 
@@ -34,6 +34,9 @@ python3 script.py  -path ./sample_dataset/rawdata/sub-sample001/sub-sample001_ct
 - Python 3.11.3
 - requirements.txt
 
+## Output format
+
+- An output json file is saved in the derivatives folder of the scan, containing the prediction (0-osteoportic, 1-malignant) and the uncertainty(0-certain, 1-uncertain) 
 
 ## References:
 <ol>

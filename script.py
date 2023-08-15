@@ -79,4 +79,4 @@ for k, v in vertebrae_dict.items():
             uncert=1
             
         prediction_dict[inverse_dict[k]] = {'pred': pred, 'uncert': uncert}
-        save_json(prediction_dict,args.path.replace('_ct.nii.gz','_pred.json'))
+        save_json(prediction_dict,args.path.replace('rawdata','derivatives').replace('_ct.nii.gz','_pred.json'))
